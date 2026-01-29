@@ -1,14 +1,6 @@
 {
   "products": [
     {
-      "category": "Clothing",
-      "name": "jeans",
-      "price": 22.5,
-      "stock": 10,
-      "size": "m",
-      "material": "cotton"
-    },
-    {
       "category": "Electronics",
       "name": "Smart TV",
       "price": 399.0,
@@ -16,11 +8,40 @@
       "warranty_months": 24
     },
     {
+      "category": "Electronics",
+      "name": "Laptop",
+      "price": 899.99,
+      "stock": 12,
+      "warranty_months": 12
+    },
+    {
+      "category": "Clothing",
+      "name": "Hoodie",
+      "price": 45.0,
+      "stock": 25,
+      "size": "L",
+      "material": "Fleece"
+    },
+    {
       "category": "Cleaning Supplies",
       "name": "Bleach",
       "price": 3.0,
       "stock": 100,
       "material_state": "liquid"
+    },
+    {
+      "category": "Cleaning Supplies",
+      "name": "Dish Soap",
+      "price": 2.5,
+      "stock": 80,
+      "material_state": "liquid"
+    },
+    {
+      "category": "Cleaning Supplies",
+      "name": "Air Freshener",
+      "price": 4.5,
+      "stock": 40,
+      "material_state": "gas"
     }
   ],
   "staff": [
@@ -29,7 +50,46 @@
       "employee_id": "EMP001",
       "role": "manager",
       "password": "12345"
+    },
+    {
+      "username": "john",
+      "employee_id": "EMP002",
+      "role": "cashier",
+      "password": "pass123"
     }
   ],
-  "sales": []
+  "sales": [
+    {
+      "id": "SALE-20260129221015",
+      "name": "Smart TV",
+      "quantity": 1,
+      "total_price": 478.8,
+      "staff_username": "alperen",
+      "date": "2026-01-29 22:10:15"
+    },
+    {
+      "id": "SALE-20260129221542",
+      "name": "Jeans",
+      "quantity": 2,
+      "total_price": 50.4,
+      "staff_username": "john",
+      "date": "2026-01-29 22:15:42"
+    },
+    {
+      "id": "SALE-20260129221809",
+      "name": "Bleach",
+      "quantity": 5,
+      "total_price": 17.25,
+      "staff_username": "alperen",
+      "date": "2026-01-29 22:18:09"
+    },
+    {
+      "id": "SALE-20260129222033",
+      "name": "Hoodie",
+      "quantity": 3,
+      "total_price": 151.2,
+      "staff_username": "john",
+      "date": "2026-01-29 22:20:33"
+    }
+  ]
 }

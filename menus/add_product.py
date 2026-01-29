@@ -19,9 +19,7 @@ class AddProductMenu(MenuBase):
         print("1. Electronics")
         print("2. Clothing")
         print("3. Cleaning Supplies")
-        category_choice = input(
-            "Enter the number corresponding to the category: "
-        ).strip()
+        category_choice = input("Select an option: ").strip()
         product_data = {"name": name, "price": price, "stock": stock}
         if category_choice == "1":
             category = "Electronics"
@@ -68,6 +66,7 @@ class AddProductMenu(MenuBase):
                 }
             )
         else:
+            print()
             print("Invalid category choice. Returning to Inventory Management Menu.")
             input("Press Enter to continue...")
 
@@ -107,6 +106,7 @@ class AddProductMenu(MenuBase):
         elif choice == "4":
             self.exit_application()
         else:
+            print()
             print("Invalid choice. Returning to Inventory Management Menu.")
             input("Press Enter to continue...")
             return ManageInventoryMenu(

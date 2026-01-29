@@ -14,7 +14,8 @@ class MainMenu(MenuBase):
         print("Options:")
         print("1. Manage Inventory")
         print("2. Process Sales")
-        print("3. Exit")
+        print("3. List Recent Sales")
+        print("4. Exit Application")
         print()
         choice = input("Select an option: ").strip()
 
@@ -23,8 +24,14 @@ class MainMenu(MenuBase):
 
             return ManageInventoryMenu(self.data_manager)
         elif choice == "2":
-            pass  # Transition to Sales Processing Menu
+            from .process_sales import ProcessSalesMenu
+
+            return ProcessSalesMenu(self.data_manager)
         elif choice == "3":
+            from .recent_sales import ListRecentSalesMenu
+
+            return ListRecentSalesMenu(self.data_manager)
+        elif choice == "4":
             self.exit_application()
         else:
             print()

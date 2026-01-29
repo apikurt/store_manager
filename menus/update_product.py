@@ -33,7 +33,7 @@ class UpdateProductMenu(MenuBase):
         try:
             product_index = int(choice) - 1
             if 0 <= product_index < len(inventory):
-                print('Leaving fields blank will keep current values.')
+                print("Leaving fields blank will keep current values.")
                 print()
                 product_to_update = inventory[product_index]
                 new_price = input(

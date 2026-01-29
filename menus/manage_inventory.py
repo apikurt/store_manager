@@ -26,7 +26,9 @@ class ManageInventoryMenu(MenuBase):
 
             return RemoveProductMenu(self.data_manager)
         elif choice == "3":
-            pass  # Logic to update product
+            from .update_product import UpdateProductMenu
+
+            return UpdateProductMenu(self.data_manager)
         elif choice == "4":
             from .view_inventory import ViewInventoryMenu
 
