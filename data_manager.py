@@ -10,10 +10,12 @@ from staff import Staff
 
 
 class DataManager:
+    # --- Initialization ---
     def __init__(self, inventory_path: str | Path = "db.json") -> None:
         self._path = Path(inventory_path)
         self.current_staff: Staff | None = None
 
+    # --- Persistence ---
     @staticmethod
     def _empty_data() -> dict[str, Any]:
         return {"products": [], "staff": [], "sales": []}
@@ -73,15 +75,7 @@ class DataManager:
         current_data[key] = items
         self.save_data(current_data)
 
-    def _product_key(self, product: Clothing | Electronics | CleaningSupplies) -> tuple:
-        if isinstance(product, Electronics):
-            return (product.category, product.name, product.warranty_months)
-        if isinstance(product, Clothing):
-            return (product.category, product.name, product.size, product.material)
-        if isinstance(product, CleaningSupplies):
-            return (product.category, product.name, product.material_state)
-        return (product.name,)
-
+    # --- Deserialization ---
     def product_from_dict(
         self, data: dict[str, Any]
     ) -> Clothing | Electronics | CleaningSupplies | None:
@@ -178,6 +172,7 @@ class DataManager:
         except ValueError:
             return None
 
+    # --- Creation ---
     def add_new_product(
         self, product: Clothing | Electronics | CleaningSupplies
     ) -> None:
@@ -189,6 +184,7 @@ class DataManager:
     def add_new_sale(self, sale: Sale) -> None:
         self._append_and_save("sales", sale)
 
+    # --- Authentication ---
     def login_staff(self, username: str, password: str) -> Staff | None:
         current_data = self.load_data()
         for staff_member in current_data.get("staff", []):
@@ -197,9 +193,19 @@ class DataManager:
                 return staff_member
         return None
 
+    # --- Inventory operations ---
     def load_inventory(self) -> list[Clothing | Electronics | CleaningSupplies]:
         data = self.load_data()
         return data.get("products", [])
+
+    def _product_key(self, product: Clothing | Electronics | CleaningSupplies) -> tuple:
+        if isinstance(product, Electronics):
+            return (product.category, product.name, product.warranty_months)
+        if isinstance(product, Clothing):
+            return (product.category, product.name, product.size, product.material)
+        if isinstance(product, CleaningSupplies):
+            return (product.category, product.name, product.material_state)
+        return (product.name,)
 
     def remove_product(
         self, product: Clothing | Electronics | CleaningSupplies
