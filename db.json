@@ -1,0 +1,21 @@
+{
+  "products": [
+    {
+      "category": "Clothing",
+      "name": "jeans",
+      "price": 22.5,
+      "stock": 10,
+      "size": "m",
+      "material": "cotton"
+    }
+  ],
+  "staff": [
+    {
+      "username": "alperen",
+      "employee_id": "EMP001",
+      "role": "manager",
+      "password": "12345"
+    }
+  ],
+  "sales": []
+}

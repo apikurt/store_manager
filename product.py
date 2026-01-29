@@ -1,0 +1,50 @@
+from abc import ABC, abstractmethod
+
+
+class Product(ABC):
+    def __init__(self, name: str, price: float, stock: int) -> None:
+        self._name = name.strip()
+        self.__price = price
+        self.__stock = stock
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def price(self) -> float:
+        return self.__price
+
+    @property
+    def stock(self) -> int:
+        return self.__stock
+
+    @price.setter
+    def price(self, value: float) -> None:
+        value = float(value)
+        if value < 0:
+            raise ValueError("Price cannot be negative")
+        self.__price = round(value, 2)
+
+    @stock.setter
+    def stock(self, value: int) -> None:
+        value = int(value)
+        if value < 0:
+            raise ValueError("Stock cannot be negative")
+        self.__stock = value
+
+    def remove_stock(self, quantity: int) -> None:
+        quantity = int(quantity)
+        if quantity <= 0:
+            raise ValueError("Quantity must be positive")
+        if quantity > self.stock:
+            raise ValueError("Insufficient stock")
+        self.stock = self.stock - quantity
+
+    @abstractmethod
+    def calculate_tax(self) -> float:
+        pass
+
+    @abstractmethod
+    def to_dict(self) -> dict:
+        pass
