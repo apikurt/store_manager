@@ -1,14 +1,12 @@
 import json
 from pathlib import Path
 from typing import Any
-from datetime import datetime
 
+from cleaning_supplies import CleaningSupplies
 from clothing import Clothing
 from electronics import Electronics
-from cleaning_supplies import CleaningSupplies
-
-from staff import Staff
 from sale import Sale
+from staff import Staff
 
 
 class DataManager:
@@ -16,19 +14,23 @@ class DataManager:
         self._path = Path(inventory_path)
         self.current_staff: Staff | None = None
 
+    @staticmethod
+    def _empty_data() -> dict[str, Any]:
+        return {"products": [], "staff": [], "sales": []}
+
     def load_data(self) -> dict[str, Any]:
         if not self._path.exists():
-            with self._path.open("w", encoding="utf-8") as f:
-                json.dump({"products": [], "staff": [], "sales": []}, f)
-            return {"products": [], "staff": [], "sales": []}
+            data = self._empty_data()
+            self.save_data(data)
+            return data
 
         try:
             raw = json.loads(self._path.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
-            return {"products": [], "staff": [], "sales": []}
+            return self._empty_data()
 
         if not isinstance(raw, dict):
-            return {"products": [], "staff": [], "sales": []}
+            return self._empty_data()
 
         products: list[Clothing | Electronics | CleaningSupplies] = []
         for item in raw.get("products", []):
@@ -62,10 +64,28 @@ class DataManager:
         with self._path.open("w", encoding="utf-8") as f:
             json.dump(to_save, f, indent=2, ensure_ascii=False)
 
+    def _append_and_save(self, key: str, item: Any) -> None:
+        if item is None:
+            return
+        current_data = self.load_data()
+        items = current_data.get(key, [])
+        items.append(item)
+        current_data[key] = items
+        self.save_data(current_data)
+
+    def _product_key(self, product: Clothing | Electronics | CleaningSupplies) -> tuple:
+        if isinstance(product, Electronics):
+            return (product.category, product.name, product.warranty_months)
+        if isinstance(product, Clothing):
+            return (product.category, product.name, product.size, product.material)
+        if isinstance(product, CleaningSupplies):
+            return (product.category, product.name, product.material_state)
+        return (product.name,)
+
     def product_from_dict(
         self, data: dict[str, Any]
     ) -> Clothing | Electronics | CleaningSupplies | None:
-        category = str(data.get("category", "")).lower()
+        category = str(data.get("category", "")).strip()
 
         try:
             name = str(data["name"])
@@ -74,7 +94,7 @@ class DataManager:
         except (KeyError, TypeError, ValueError):
             return None
 
-        if category == "electronics":
+        if category == "Electronics":
             try:
                 warranty_months = int(data.get("warranty_months", 0))
             except (TypeError, ValueError):
@@ -89,7 +109,7 @@ class DataManager:
             except ValueError:
                 return None
 
-        if category == "clothing":
+        if category == "Clothing":
             size = str(data.get("size", ""))
             material = str(data.get("material", ""))
             try:
@@ -103,7 +123,7 @@ class DataManager:
             except ValueError:
                 return None
 
-        if category == "cleaning_supplies":
+        if category == "Cleaning Supplies":
             material_state = str(data.get("material_state", "liquid"))
             try:
                 return CleaningSupplies(
@@ -114,6 +134,7 @@ class DataManager:
                 )
             except ValueError:
                 return None
+        return None
 
     def staff_from_dict(self, data: dict[str, Any]) -> Staff | None:
         try:
@@ -136,19 +157,23 @@ class DataManager:
 
     def sale_from_dict(self, data: dict[str, Any]) -> Sale | None:
         try:
-            product_name = str(data["product_name"])
-            sold_by = str(data["sold_by"])
-            staff_username = str(data["staff_username"])
+            sale_id = str(data["id"]).strip()
+            product_name = str(data["name"]).strip()
+            quantity = int(data["quantity"])
+            total_price = float(data["total_price"])
+            staff_username = str(data["staff_username"]).strip()
+            date = str(data["date"]).strip()
         except (KeyError, TypeError, ValueError):
             return None
 
         try:
-            now = datetime.now()
             return Sale(
-                product_name=product_name,
-                sold_by=sold_by,
+                id=sale_id,
+                name=product_name,
+                quantity=quantity,
+                total_price=total_price,
                 staff_username=staff_username,
-                date=now.strftime("%Y-%m-%d %H:%M:%S"),
+                date=date,
             )
         except ValueError:
             return None
@@ -156,25 +181,13 @@ class DataManager:
     def add_new_product(
         self, product: Clothing | Electronics | CleaningSupplies
     ) -> None:
-        current_data = self.load_data()
-        products_list = current_data.get("products", [])
-        products_list.append(product)
-        current_data["products"] = products_list
-        self.save_data(current_data)
+        self._append_and_save("products", product)
 
     def add_new_staff(self, staff_member: Staff) -> None:
-        current_data = self.load_data()
-        staff_list = current_data.get("staff", [])
-        staff_list.append(staff_member)
-        current_data["staff"] = staff_list
-        self.save_data(current_data)
+        self._append_and_save("staff", staff_member)
 
     def add_new_sale(self, sale: Sale) -> None:
-        current_data = self.load_data()
-        sales_list = current_data.get("sales", [])
-        sales_list.append(sale)
-        current_data["sales"] = sales_list
-        self.save_data(current_data)
+        self._append_and_save("sales", sale)
 
     def login_staff(self, username: str, password: str) -> Staff | None:
         current_data = self.load_data()
@@ -187,3 +200,28 @@ class DataManager:
     def load_inventory(self) -> list[Clothing | Electronics | CleaningSupplies]:
         data = self.load_data()
         return data.get("products", [])
+
+    def remove_product(
+        self, product: Clothing | Electronics | CleaningSupplies
+    ) -> None:
+        current_data = self.load_data()
+        products = current_data.get("products", [])
+        target_key = self._product_key(product)
+        products = [p for p in products if self._product_key(p) != target_key]
+        current_data["products"] = products
+        self.save_data(current_data)
+
+    def update_product(
+        self, product: Clothing | Electronics | CleaningSupplies
+    ) -> None:
+        current_data = self.load_data()
+        products = current_data.get("products", [])
+        target_key = self._product_key(product)
+        updated_products = []
+        for p in products:
+            if self._product_key(p) == target_key:
+                updated_products.append(product)
+            else:
+                updated_products.append(p)
+        current_data["products"] = updated_products
+        self.save_data(current_data)

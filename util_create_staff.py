@@ -1,9 +1,10 @@
-from storemanager.staff import Staff
 import json
 from pathlib import Path
 
-name = input("Enter Staff Name: ").strip()
-position = input("Enter Staff Position: ").strip()
+from staff import Staff
+
+username = input("Enter Staff Username: ").strip()
+role = input("Enter Staff Role: ").strip()
 password = input("Enter Staff Password: ").strip()
 
 existing_data = {}
@@ -21,9 +22,9 @@ else:
 employee_id = f"EMP{len(existing_staff) + 1:03d}"
 
 new_staff = Staff(
-    name=name,
+    username=username,
     employee_id=employee_id,
-    role=position,
+    role=role,
     password=password,
 )
 
@@ -31,7 +32,11 @@ existing_staff.append(new_staff.to_dict())
 
 with Path("db.json").open("w", encoding="utf-8") as f:
     json.dump(
-        {"products": existing_data.get("products", []), "staff": existing_staff},
+        {
+            "products": existing_data.get("products", []),
+            "staff": existing_staff,
+            "sales": existing_data.get("sales", []),
+        },
         f,
         indent=2,
         ensure_ascii=False,

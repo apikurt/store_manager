@@ -7,6 +7,20 @@
       "stock": 10,
       "size": "m",
       "material": "cotton"
+    },
+    {
+      "category": "Electronics",
+      "name": "Smart TV",
+      "price": 399.0,
+      "stock": 52,
+      "warranty_months": 24
+    },
+    {
+      "category": "Cleaning Supplies",
+      "name": "Bleach",
+      "price": 3.0,
+      "stock": 100,
+      "material_state": "liquid"
     }
   ],
   "staff": [

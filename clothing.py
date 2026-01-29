@@ -13,7 +13,7 @@ class Clothing(Product):
         material: str,
     ) -> None:
         super().__init__(name=name, price=price, stock=stock)
-        self.category = "clothing"
+        self.category = "Clothing"
         self._size = size.strip()
         self._material = material.strip()
         self.tax_rate = 0.12  # 12% VAT for clothing
@@ -25,10 +25,6 @@ class Clothing(Product):
     @property
     def material(self) -> str:
         return self._material
-
-    def calculate_tax(self) -> float:
-        unit_price = self.price
-        return round(unit_price * self.tax_rate, 2)
 
     def to_dict(self) -> Dict[str, Any]:
         return {

@@ -4,8 +4,9 @@ from abc import ABC, abstractmethod
 class Product(ABC):
     def __init__(self, name: str, price: float, stock: int) -> None:
         self._name = name.strip()
-        self.__price = price
-        self.__stock = stock
+        self.tax_rate = 0.0  # tax rate will be overridden by subclasses
+        self.price = price
+        self.stock = stock
 
     @property
     def name(self) -> str:
@@ -41,9 +42,8 @@ class Product(ABC):
             raise ValueError("Insufficient stock")
         self.stock = self.stock - quantity
 
-    @abstractmethod
     def calculate_tax(self) -> float:
-        pass
+        return round(self.price * self.tax_rate, 2)
 
     @abstractmethod
     def to_dict(self) -> dict:

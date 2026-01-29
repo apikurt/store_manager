@@ -1,12 +1,12 @@
-from menus.main_menu import MainMenu
-from data_manager import DataManager
 from pathlib import Path
+
+from data_manager import DataManager
+from menus.main_menu import MainMenu
 
 
 class Runner:
     def __init__(self):
         self.data_manager = DataManager(Path("db.json"))
-        self.current_state = MainMenu(self.data_manager)
 
     def run(self):
         current_state = MainMenu(self.data_manager)

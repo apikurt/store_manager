@@ -2,22 +2,19 @@ from .base import MenuBase
 
 
 class ManageInventoryMenu(MenuBase):
-    def __init__(self, data_manager):
-        super().__init__(data_manager)
-
     def run(self):
-        self.clear_screen()
-
+        self.show_header("Inventory Management")
         print(f"Logged in as: {self.data_manager.current_staff.username}")
         print()
 
-        print("--- Inventory Management Menu ---")
+        print("Options:")
         print("1. Add Product")
         print("2. Remove Product")
-        print("3. Update Stock")
+        print("3. Update Product")
         print("4. View Inventory")
         print("5. Return to Main Menu")
         print("6. Exit Application")
+        print()
         choice = input("Select an option: ").strip()
 
         if choice == "1":
@@ -25,9 +22,11 @@ class ManageInventoryMenu(MenuBase):
 
             return AddProductMenu(self.data_manager)
         elif choice == "2":
-            pass  # Logic to remove a product
+            from .remove_product import RemoveProductMenu
+
+            return RemoveProductMenu(self.data_manager)
         elif choice == "3":
-            pass  # Logic to update stock
+            pass  # Logic to update product
         elif choice == "4":
             from .view_inventory import ViewInventoryMenu
 
@@ -39,6 +38,7 @@ class ManageInventoryMenu(MenuBase):
         elif choice == "6":
             self.exit_application()
         else:
+            print()
             print("Invalid choice. Please try again.")
             input("Press Enter to continue...")
             return self  # Stay in the inventory management menu

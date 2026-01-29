@@ -1,5 +1,6 @@
-from product import Product
 from typing import Literal
+
+from product import Product
 
 
 class CleaningSupplies(Product):
@@ -12,12 +13,8 @@ class CleaningSupplies(Product):
     ) -> None:
         super().__init__(name=name, price=price, stock=stock)
         self.tax_rate = 0.15  # 15% VAT for cleaning supplies
-        self.category = "cleaning_supplies"
+        self.category = "Cleaning Supplies"
         self.material_state = material_state
-
-    def calculate_tax(self) -> float:
-        unit_price = self.price
-        return round(unit_price * self.tax_rate, 2)
 
     def to_dict(self) -> dict:
         return {
