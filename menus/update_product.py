@@ -4,8 +4,7 @@ from .base import MenuBase
 class UpdateProductMenu(MenuBase):
     def run(self):
         self.show_header("Update Product")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         inventory = self.data_manager.load_data().get("products", [])
         if not inventory:
@@ -18,7 +17,7 @@ class UpdateProductMenu(MenuBase):
         print("Products:")
         for idx, product in enumerate(inventory, start=1):
             print(
-                f"{idx}. {product.name} (Stock: {product.stock}, Price: {product.price:.2f} EUR)"
+                f"{idx}. {product.name} (ID: {product.id}, Stock: {product.stock}, Price: {product.price:.2f} EUR)"
             )
         print()
         choice = input(

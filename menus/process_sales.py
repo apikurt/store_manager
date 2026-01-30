@@ -8,8 +8,7 @@ class ProcessSalesMenu(MenuBase):
         from .main_menu import MainMenu
 
         self.show_header("Process Sales")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         inventory = self.data_manager.load_data().get("products", [])
         if not inventory:
@@ -53,9 +52,7 @@ class ProcessSalesMenu(MenuBase):
 
             print()
             print("Sale Summary:")
-            print(
-                f"{quantity} x {product_to_sell.name} @ {unit_total:.2f} EUR each"
-            )
+            print(f"{quantity} x {product_to_sell.name} @ {unit_total:.2f} EUR each")
             print(f"Total: {total_price:.2f} EUR")
             print()
             confirm = input("Confirm sale? (y/N): ").strip().lower()

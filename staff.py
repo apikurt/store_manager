@@ -1,10 +1,17 @@
-class Staff:
-    def __init__(
-        self, username: str, employee_id: str, role: str, password: str
-    ) -> None:
+from abc import ABC
+
+
+class Staff(ABC):
+    VALID_ROLES = {"worker", "manager"}
+    ROLE: str = ""
+
+    def __init__(self, username: str, employee_id: str, password: str) -> None:
+        role = self.ROLE.strip().lower()
+        if role not in self.VALID_ROLES:
+            raise ValueError("Invalid staff role")
         self._username = username.strip()
         self._employee_id = employee_id.strip()
-        self._role = role.strip()
+        self._role = role
         self._password = password.strip()
 
     @property
@@ -26,3 +33,11 @@ class Staff:
             "role": self.role,
             "password": self._password,
         }
+
+
+class Worker(Staff):
+    ROLE = "worker"
+
+
+class Manager(Staff):
+    ROLE = "manager"

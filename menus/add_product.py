@@ -6,8 +6,7 @@ class AddProductMenu(MenuBase):
         from .manage_inventory import ManageInventoryMenu
 
         self.show_header("Add Product")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         print("Product Details:")
         name = input("Enter product name: ").strip()
@@ -20,7 +19,13 @@ class AddProductMenu(MenuBase):
         print("2. Clothing")
         print("3. Cleaning Supplies")
         category_choice = input("Select an option: ").strip()
-        product_data = {"name": name, "price": price, "stock": stock}
+        product_id = self.data_manager.next_product_id()
+        product_data = {
+            "id": product_id,
+            "name": name,
+            "price": price,
+            "stock": stock,
+        }
         if category_choice == "1":
             category = "Electronics"
             warranty_period = input("Enter warranty period (in months): ").strip()
@@ -82,7 +87,7 @@ class AddProductMenu(MenuBase):
         self.data_manager.add_new_product(product)
 
         print()
-        print(f"Product '{name}' added successfully!")
+        print(f"Product '{name}' added successfully! (ID: {product_id})")
         print()
 
         print("Options:")

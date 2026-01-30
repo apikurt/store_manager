@@ -6,13 +6,14 @@ from product import Product
 class Clothing(Product):
     def __init__(
         self,
+        product_id: str,
         name: str,
         price: float,
         stock: int,
         size: str,
         material: str,
     ) -> None:
-        super().__init__(name=name, price=price, stock=stock)
+        super().__init__(product_id=product_id, name=name, price=price, stock=stock)
         self.category = "Clothing"
         self._size = size.strip()
         self._material = material.strip()
@@ -29,6 +30,7 @@ class Clothing(Product):
     def to_dict(self) -> Dict[str, Any]:
         return {
             "category": self.category,
+            "id": self.id,
             "name": self.name,
             "price": self.price,
             "stock": self.stock,

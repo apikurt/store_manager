@@ -4,8 +4,7 @@ from .base import MenuBase
 class ListRecentSalesMenu(MenuBase):
     def run(self):
         self.show_header("Recent Sales")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         sales = self.data_manager.load_data().get("sales", [])
         if not sales:

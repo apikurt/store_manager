@@ -4,8 +4,7 @@ from .base import MenuBase
 class ManageInventoryMenu(MenuBase):
     def run(self):
         self.show_header("Inventory Management")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         print("Options:")
         print("1. Add Product")

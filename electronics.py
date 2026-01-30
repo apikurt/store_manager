@@ -4,12 +4,13 @@ from product import Product
 class Electronics(Product):
     def __init__(
         self,
+        product_id: str,
         name: str,
         price: float,
         stock: int,
         warranty_months: int,
     ) -> None:
-        super().__init__(name=name, price=price, stock=stock)
+        super().__init__(product_id=product_id, name=name, price=price, stock=stock)
         self.category = "Electronics"
         warranty_months = int(warranty_months)
         if warranty_months < 0:
@@ -24,6 +25,7 @@ class Electronics(Product):
     def to_dict(self) -> dict:
         return {
             "category": self.category,
+            "id": self.id,
             "name": self.name,
             "price": self.price,
             "stock": self.stock,

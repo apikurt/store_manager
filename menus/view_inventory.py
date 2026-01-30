@@ -4,8 +4,7 @@ from .base import MenuBase
 class ViewInventoryMenu(MenuBase):
     def run(self):
         self.show_header("Inventory")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         inventory = self.data_manager.load_data().get("products", [])
         if not inventory:
@@ -14,12 +13,12 @@ class ViewInventoryMenu(MenuBase):
             print("Items:")
             print()
             print(
-                f"{'Product Name':<20} {'Price (EUR)':>14} {'Price w/ Tax (EUR)':>20} {'Stock':>8}"
+                f"{'ID':<10} {'Product Name':<20} {'Price (EUR)':>14} {'Price w/ Tax (EUR)':>20} {'Stock':>8}"
             )
-            print("-" * 70)
+            print("-" * 80)
             for product in inventory:
                 print(
-                    f"{product.name:<20} {product.price:>14.2f} {product.price + product.calculate_tax():>20.2f} {product.stock:>8}"
+                    f"{product.id:<10} {product.name:<20} {product.price:>14.2f} {product.price + product.calculate_tax():>20.2f} {product.stock:>8}"
                 )
         print()
         input("Press Enter to return to the Inventory Management Menu...")

@@ -4,8 +4,7 @@ from .base import MenuBase
 class RemoveProductMenu(MenuBase):
     def run(self):
         self.show_header("Remove Product")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         inventory = self.data_manager.load_data().get("products", [])
         if not inventory:
@@ -17,7 +16,7 @@ class RemoveProductMenu(MenuBase):
 
         print("Products:")
         for idx, product in enumerate(inventory, start=1):
-            print(f"{idx}. {product.name} (Stock: {product.stock})")
+            print(f"{idx}. {product.name} (ID: {product.id}, Stock: {product.stock})")
         print()
         choice = input(
             "Enter the number of the product to remove (or 'b' to go back): "

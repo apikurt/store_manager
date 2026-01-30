@@ -2,6 +2,7 @@
   "products": [
     {
       "category": "Electronics",
+      "id": "PRD0001",
       "name": "Smart TV",
       "price": 399.0,
       "stock": 52,
@@ -9,6 +10,7 @@
     },
     {
       "category": "Electronics",
+      "id": "PRD0002",
       "name": "Laptop",
       "price": 899.99,
       "stock": 12,
@@ -16,14 +18,16 @@
     },
     {
       "category": "Clothing",
+      "id": "PRD0003",
       "name": "Hoodie",
       "price": 45.0,
-      "stock": 25,
+      "stock": 7,
       "size": "L",
       "material": "Fleece"
     },
     {
       "category": "Cleaning Supplies",
+      "id": "PRD0004",
       "name": "Bleach",
       "price": 3.0,
       "stock": 100,
@@ -31,6 +35,7 @@
     },
     {
       "category": "Cleaning Supplies",
+      "id": "PRD0005",
       "name": "Dish Soap",
       "price": 2.5,
       "stock": 80,
@@ -38,6 +43,7 @@
     },
     {
       "category": "Cleaning Supplies",
+      "id": "PRD0006",
       "name": "Air Freshener",
       "price": 4.5,
       "stock": 40,
@@ -54,8 +60,14 @@
     {
       "username": "john",
       "employee_id": "EMP002",
-      "role": "cashier",
+      "role": "worker",
       "password": "pass123"
+    },
+    {
+      "username": "mary",
+      "employee_id": "EMP003",
+      "role": "worker",
+      "password": "mary123"
     }
   ],
   "sales": [
@@ -90,6 +102,22 @@
       "total_price": 151.2,
       "staff_username": "john",
       "date": "2026-01-29 22:20:33"
+    },
+    {
+      "id": "SALE-20260130101111",
+      "name": "Hoodie",
+      "quantity": 10,
+      "total_price": 504.0,
+      "staff_username": "mary",
+      "date": "2026-01-30 10:11:11"
+    },
+    {
+      "id": "SALE-20260130101130",
+      "name": "Hoodie",
+      "quantity": 8,
+      "total_price": 403.2,
+      "staff_username": "mary",
+      "date": "2026-01-30 10:11:30"
     }
   ]
 }

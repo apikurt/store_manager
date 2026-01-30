@@ -6,7 +6,7 @@ from cleaning_supplies import CleaningSupplies
 from clothing import Clothing
 from electronics import Electronics
 from sale import Sale
-from staff import Staff
+from staff import Manager, Staff, Worker
 
 
 class DataManager:
@@ -82,6 +82,7 @@ class DataManager:
         category = str(data.get("category", "")).strip()
 
         try:
+            product_id = str(data["id"]).strip()
             name = str(data["name"])
             price = float(data["price"])
             stock = int(data["stock"])
@@ -95,6 +96,7 @@ class DataManager:
                 warranty_months = 0
             try:
                 return Electronics(
+                    product_id=product_id,
                     name=name,
                     price=price,
                     stock=stock,
@@ -108,6 +110,7 @@ class DataManager:
             material = str(data.get("material", ""))
             try:
                 return Clothing(
+                    product_id=product_id,
                     name=name,
                     price=price,
                     stock=stock,
@@ -121,6 +124,7 @@ class DataManager:
             material_state = str(data.get("material_state", "liquid"))
             try:
                 return CleaningSupplies(
+                    product_id=product_id,
                     name=name,
                     price=price,
                     stock=stock,
@@ -140,12 +144,20 @@ class DataManager:
             return None
 
         try:
-            return Staff(
-                username=username,
-                employee_id=employee_id,
-                role=role,
-                password=password,
-            )
+            role_key = role.strip().lower()
+            if role_key == "manager":
+                return Manager(
+                    username=username,
+                    employee_id=employee_id,
+                    password=password,
+                )
+            if role_key == "worker":
+                return Worker(
+                    username=username,
+                    employee_id=employee_id,
+                    password=password,
+                )
+            return None
         except ValueError:
             return None
 
@@ -198,22 +210,23 @@ class DataManager:
         data = self.load_data()
         return data.get("products", [])
 
-    def _product_key(self, product: Clothing | Electronics | CleaningSupplies) -> tuple:
-        if isinstance(product, Electronics):
-            return (product.category, product.name, product.warranty_months)
-        if isinstance(product, Clothing):
-            return (product.category, product.name, product.size, product.material)
-        if isinstance(product, CleaningSupplies):
-            return (product.category, product.name, product.material_state)
-        return (product.name,)
+    def next_product_id(self) -> str:
+        max_id = 0
+        for product in self.load_data().get("products", []):
+            raw_id = product.id.strip()
+            raw_id = raw_id[3:] if raw_id.upper().startswith("PRD") else raw_id
+            try:
+                max_id = max(max_id, int(raw_id))
+            except ValueError:
+                continue
+        return f"PRD{max_id + 1:04d}"
 
     def remove_product(
         self, product: Clothing | Electronics | CleaningSupplies
     ) -> None:
         current_data = self.load_data()
         products = current_data.get("products", [])
-        target_key = self._product_key(product)
-        products = [p for p in products if self._product_key(p) != target_key]
+        products = [p for p in products if p.id != product.id]
         current_data["products"] = products
         self.save_data(current_data)
 
@@ -222,10 +235,9 @@ class DataManager:
     ) -> None:
         current_data = self.load_data()
         products = current_data.get("products", [])
-        target_key = self._product_key(product)
         updated_products = []
         for p in products:
-            if self._product_key(p) == target_key:
+            if p.id == product.id:
                 updated_products.append(product)
             else:
                 updated_products.append(p)

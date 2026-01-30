@@ -39,6 +39,12 @@ class MenuBase(ABC):
         print(("-" * len(menu_title)).center(inner_width))
         print()
 
+    def show_user(self) -> None:
+        print(
+            f"Logged in as: {self.data_manager.current_staff.username} ({self.data_manager.current_staff.role})"
+        )
+        print()
+
     def exit_application(self):
         """
         Exits the application.

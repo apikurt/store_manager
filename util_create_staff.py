@@ -1,10 +1,16 @@
+# Utility script to create a new staff member and add to db.json
+# Not a part of the main application
+
 import json
 from pathlib import Path
 
-from staff import Staff
+from staff import Manager, Worker
 
 username = input("Enter Staff Username: ").strip()
-role = input("Enter Staff Role: ").strip()
+print("Select Role:")
+print("1. Worker (default)")
+print("2. Manager")
+role_choice = input("Select an option: ").strip()
 password = input("Enter Staff Password: ").strip()
 
 existing_data = {}
@@ -19,14 +25,29 @@ if Path("db.json").exists():
 else:
     existing_staff = []
 
-employee_id = f"EMP{len(existing_staff) + 1:03d}"
+max_id = 0
+for staff in existing_staff:
+    raw_id = str(staff.get("employee_id", "")).strip()
+    if raw_id.upper().startswith("EMP"):
+        raw_id = raw_id[3:]
+    try:
+        max_id = max(max_id, int(raw_id))
+    except ValueError:
+        continue
+employee_id = f"EMP{max_id + 1:03d}"
 
-new_staff = Staff(
-    username=username,
-    employee_id=employee_id,
-    role=role,
-    password=password,
-)
+if role_choice == "2":
+    new_staff = Manager(
+        username=username,
+        employee_id=employee_id,
+        password=password,
+    )
+else:
+    new_staff = Worker(
+        username=username,
+        employee_id=employee_id,
+        password=password,
+    )
 
 existing_staff.append(new_staff.to_dict())
 

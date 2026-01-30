@@ -1,21 +1,26 @@
 from .base import MenuBase
-from .login import LoginMenu
 
 
 class MainMenu(MenuBase):
     def run(self):
         if not self.data_manager.current_staff:
+            from .login import LoginMenu
+
             return LoginMenu(self.data_manager)
 
         self.show_header("Main Menu")
-        print(f"Logged in as: {self.data_manager.current_staff.username}")
-        print()
+        self.show_user()
 
         print("Options:")
         print("1. Manage Inventory")
         print("2. Process Sales")
         print("3. List Recent Sales")
-        print("4. Exit Application")
+        is_manager = self.data_manager.current_staff.role == "manager"
+        if is_manager:
+            print("4. Manage Staff")
+            print("5. Exit Application")
+        else:
+            print("4. Exit Application")
         print()
         choice = input("Select an option: ").strip()
 
@@ -32,7 +37,19 @@ class MainMenu(MenuBase):
 
             return ListRecentSalesMenu(self.data_manager)
         elif choice == "4":
+            if is_manager:
+                from .manage_staff import ManageStaffMenu
+
+                return ManageStaffMenu(self.data_manager)
             self.exit_application()
+        elif choice == "5":
+            if is_manager:
+                self.exit_application()
+            else:
+                print()
+                print("Invalid choice. Please try again.")
+                input("Press Enter to continue...")
+                return self
         else:
             print()
             print("Invalid choice. Please try again.")

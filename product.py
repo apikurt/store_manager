@@ -2,11 +2,18 @@ from abc import ABC, abstractmethod
 
 
 class Product(ABC):
-    def __init__(self, name: str, price: float, stock: int) -> None:
+    def __init__(self, product_id: str, name: str, price: float, stock: int) -> None:
+        self._id = str(product_id).strip()
+        if not self._id:
+            raise ValueError("Product id cannot be empty")
         self._name = name.strip()
         self.tax_rate = 0.0  # tax rate will be overridden by subclasses
         self.price = price
         self.stock = stock
+
+    @property
+    def id(self) -> str:
+        return self._id
 
     @property
     def name(self) -> str:
