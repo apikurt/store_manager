@@ -30,7 +30,7 @@
       "id": "PRD0004",
       "name": "Bleach",
       "price": 3.0,
-      "stock": 100,
+      "stock": 88,
       "material_state": "liquid"
     },
     {
@@ -118,6 +118,14 @@
       "total_price": 403.2,
       "staff_username": "mary",
       "date": "2026-01-30 10:11:30"
+    },
+    {
+      "id": "SALE-20260130230039",
+      "name": "Bleach",
+      "quantity": 12,
+      "total_price": 41.400000000000006,
+      "staff_username": "alperen",
+      "date": "2026-01-30 23:00:39"
     }
   ]
 }
