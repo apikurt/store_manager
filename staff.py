@@ -26,6 +26,9 @@ class Staff(ABC):
     def role(self) -> str:
         return self._role
 
+    def check_password(self, password: str) -> bool:
+        return self._password == password
+
     def to_dict(self) -> dict:
         return {
             "username": self.username,

@@ -40,6 +40,9 @@ class MenuBase(ABC):
         print()
 
     def show_user(self) -> None:
+        """
+        Displays the currently logged-in staff user.
+        """
         print(
             f"Logged in as: {self.data_manager.current_staff.username} ({self.data_manager.current_staff.role})"
         )

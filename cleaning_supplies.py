@@ -17,6 +17,16 @@ class CleaningSupplies(Product):
         self.category = "Cleaning Supplies"
         self.material_state = material_state
 
+    @property
+    def material_state(self) -> str:
+        return self._material_state
+
+    @material_state.setter
+    def material_state(self, value: str) -> None:
+        if value not in ["liquid", "solid", "gas"]:
+            raise ValueError("material_state must be 'liquid', 'solid', or 'gas'")
+        self._material_state = str(value)
+
     def to_dict(self) -> dict:
         return {
             "category": self.category,

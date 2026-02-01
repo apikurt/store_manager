@@ -203,7 +203,7 @@ class DataManager:
         for staff_member in current_data.get("staff", []):
             if (
                 staff_member.username.strip().lower() == username_key
-                and staff_member._password == password
+                and staff_member.check_password(password)
             ):
                 self.current_staff = staff_member
                 return staff_member

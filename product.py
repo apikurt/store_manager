@@ -28,25 +28,44 @@ class Product(ABC):
 
     @property
     def price(self) -> float:
-        return self.__price
+        return self._price
 
     @property
     def stock(self) -> int:
-        return self.__stock
+        return self._stock
 
     @price.setter
     def price(self, value: float) -> None:
         value = float(value)
         if value < 0:
             raise ValueError("Price cannot be negative")
-        self.__price = round(value, 2)
+        self._price = round(value, 2)
 
     @stock.setter
     def stock(self, value: int) -> None:
         value = int(value)
         if value < 0:
             raise ValueError("Stock cannot be negative")
-        self.__stock = value
+        self._stock = value
+
+    @property
+    def tax_rate(self) -> float:
+        return self._tax_rate
+
+    @tax_rate.setter
+    def tax_rate(self, value: float) -> None:
+        value = float(value)
+        if value < 0:
+            raise ValueError("Tax rate cannot be negative")
+        self._tax_rate = value
+
+    @property
+    def category(self) -> str:
+        return self._category
+
+    @category.setter
+    def category(self, value: str) -> None:
+        self._category = str(value)
 
     def remove_stock(self, quantity: int) -> None:
         quantity = int(quantity)
