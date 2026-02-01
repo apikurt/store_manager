@@ -199,8 +199,12 @@ class DataManager:
     # --- Authentication ---
     def login_staff(self, username: str, password: str) -> Staff | None:
         current_data = self.load_data()
+        username_key = username.strip().lower()
         for staff_member in current_data.get("staff", []):
-            if staff_member.username == username and staff_member._password == password:
+            if (
+                staff_member.username.strip().lower() == username_key
+                and staff_member._password == password
+            ):
                 self.current_staff = staff_member
                 return staff_member
         return None

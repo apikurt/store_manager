@@ -10,6 +10,18 @@ class AddProductMenu(MenuBase):
 
         print("Product Details:")
         name = input("Enter product name: ").strip()
+        if not name:
+            print()
+            print("Product name cannot be empty.")
+            print()
+            print("Options:")
+            print("1. Try Again")
+            print("2. Return to Inventory Management Menu")
+            print()
+            choice = input("Select an option: ").strip()
+            if choice == "1":
+                return self
+            return ManageInventoryMenu(self.data_manager)
         price = input("Enter product price: ").strip()
         stock = input("Enter initial stock quantity: ").strip()
 
@@ -81,7 +93,14 @@ class AddProductMenu(MenuBase):
         if product is None:
             print()
             print("Invalid product details. Please try again.")
-            input("Press Enter to continue...")
+            print()
+            print("Options:")
+            print("1. Try Again")
+            print("2. Return to Inventory Management Menu")
+            print()
+            choice = input("Select an option: ").strip()
+            if choice == "1":
+                return self
             return ManageInventoryMenu(self.data_manager)
 
         self.data_manager.add_new_product(product)

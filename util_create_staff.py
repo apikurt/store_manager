@@ -25,6 +25,19 @@ if Path("db.json").exists():
 else:
     existing_staff = []
 
+existing_usernames = {
+    str(staff.get("username", "")).strip().lower() for staff in existing_staff
+}
+if not username:
+    print("Username cannot be empty.")
+    raise SystemExit(1)
+if username.lower() in existing_usernames:
+    print("That username already exists.")
+    raise SystemExit(1)
+if not password:
+    print("Password cannot be empty.")
+    raise SystemExit(1)
+
 max_id = 0
 for staff in existing_staff:
     raw_id = str(staff.get("employee_id", "")).strip()

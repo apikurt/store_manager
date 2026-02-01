@@ -40,14 +40,6 @@
       "price": 2.5,
       "stock": 80,
       "material_state": "liquid"
-    },
-    {
-      "category": "Cleaning Supplies",
-      "id": "PRD0006",
-      "name": "Air Freshener",
-      "price": 4.5,
-      "stock": 40,
-      "material_state": "gas"
     }
   ],
   "staff": [

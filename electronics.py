@@ -11,12 +11,12 @@ class Electronics(Product):
         warranty_months: int,
     ) -> None:
         super().__init__(product_id=product_id, name=name, price=price, stock=stock)
-        self.category = "Electronics"
         warranty_months = int(warranty_months)
         if warranty_months < 0:
             raise ValueError("Warranty months cannot be negative")
         self._warranty_months = warranty_months
         self.tax_rate = 0.20  # 20% VAT for electronics
+        self.category = "Electronics"
 
     @property
     def warranty_months(self) -> int:

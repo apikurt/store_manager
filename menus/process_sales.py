@@ -75,6 +75,18 @@ class ProcessSalesMenu(MenuBase):
                     "date": sale_date,
                 }
             )
+            if sale is None:
+                print()
+                print("Sale could not be recorded due to invalid details.")
+                print()
+                print("Options:")
+                print("1. Try Again")
+                print("2. Return to Main Menu")
+                print()
+                retry_choice = input("Select an option: ").strip()
+                if retry_choice == "1":
+                    return self
+                return MainMenu(self.data_manager)
             self.data_manager.add_new_sale(sale)
 
             product_to_sell.remove_stock(quantity)

@@ -14,10 +14,10 @@ class Clothing(Product):
         material: str,
     ) -> None:
         super().__init__(product_id=product_id, name=name, price=price, stock=stock)
-        self.category = "Clothing"
         self._size = size.strip()
         self._material = material.strip()
         self.tax_rate = 0.12  # 12% VAT for clothing
+        self.category = "Clothing"
 
     @property
     def size(self) -> str:
