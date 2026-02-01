@@ -9,10 +9,8 @@ class Product(ABC):
         price: float,
         stock: int,
     ) -> None:
-        self._id = str(product_id).strip()
-        if not self._id:
-            raise ValueError("Product id cannot be empty")
-        self._name = name.strip()
+        self.id = str(product_id).strip()
+        self.name = name.strip()
         self.price = price
         self.stock = stock
         self.tax_rate = 0.0  # tax rate will be overridden by subclasses
@@ -22,17 +20,27 @@ class Product(ABC):
     def id(self) -> str:
         return self._id
 
+    @id.setter
+    def id(self, value: str) -> None:
+        value = str(value).strip()
+        if not value:
+            raise ValueError("Product id cannot be empty")
+        self._id = value
+
     @property
     def name(self) -> str:
         return self._name
 
+    @name.setter
+    def name(self, value: str) -> None:
+        value = str(value).strip()
+        if not value:
+            raise ValueError("Product name cannot be empty")
+        self._name = value
+
     @property
     def price(self) -> float:
         return self._price
-
-    @property
-    def stock(self) -> int:
-        return self._stock
 
     @price.setter
     def price(self, value: float) -> None:
@@ -40,6 +48,10 @@ class Product(ABC):
         if value < 0:
             raise ValueError("Price cannot be negative")
         self._price = round(value, 2)
+
+    @property
+    def stock(self) -> int:
+        return self._stock
 
     @stock.setter
     def stock(self, value: int) -> None:
